@@ -17,8 +17,9 @@ import { OctagonAlertIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 const formSchema = z.object({
     name: z.string().min(1, { message: "Name is required"}),
@@ -32,7 +33,8 @@ const formSchema = z.object({
 });
 
 export const SignUpView = () => {
-   const router = useRouter();
+  const router = useRouter();
+   
    const [error, setError] = useState<string | null>(null);
    const [pending, setPending] = useState(false);
 
@@ -55,11 +57,36 @@ export const SignUpView = () => {
             name: data.name,
             email: data.email,
             password: data.password,
+            callbackURL: "/",
         },
         {
             onSuccess: () => {
                 setPending(false);
                 router.push("/");
+                
+            },
+            onError: ({ error }) => {
+               setError(error.message)
+            },
+        }
+      );
+
+      
+   };
+
+   const onSocial =  (provider: "github" | "google") => {
+      setError(null);
+      setPending(true);
+
+       authClient.signIn.social(
+        {
+           provider: provider,
+           callbackURL: "/",
+        },
+        {
+            onSuccess: () => {
+                setPending(false);
+                
             },
             onError: ({ error }) => {
                setError(error.message)
@@ -172,7 +199,7 @@ export const SignUpView = () => {
                           type="submit"
                           className="w-full"
                        >
-                          Sign in
+                          Sign up 
                        </Button>
                        <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center 
                        after:border-t">
@@ -183,19 +210,21 @@ export const SignUpView = () => {
                        <div className="grid grid-cols-2 gap-4">
                           <Button
                             disabled={pending}
+                            onClick={() => onSocial("google")}
                             variant="outline"
                             type="button"
                             className="w-full"
                           >
-                            Google 
+                            <FaGoogle /> 
                           </Button>
                            <Button
+                           onClick={() => onSocial("github")}
                             disabled={pending}
                             variant="outline"
                             type="button"
                             className="w-full"
                           >
-                            Github  
+                            <FaGithub />  
                           </Button>
                        </div>
                        <div className="text-center text-sm">
