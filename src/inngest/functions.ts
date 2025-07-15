@@ -4,7 +4,6 @@ import { StreamTranscriptItem } from "@/modules/meetings/types";
 import { db } from "@/db";
 import { agents, meetings, user } from "@/db/schema";
 import { eq, inArray } from "drizzle-orm";
-import { name } from "@stream-io/video-react-sdk";
 import { createAgent, openai, TextMessage } from "@inngest/agent-kit";
 
 const summarizer = createAgent({

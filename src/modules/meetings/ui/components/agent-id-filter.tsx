@@ -4,7 +4,6 @@ import { useTRPC } from "@/trpc/client";
 import { CommandSelect } from "@/components/command-select";
 import { GeneratedAvatar } from "@/components/generated-avatar";
 import { useMeetingsFilters } from "../../hooks/use-meetings-filters";
-import { Value } from "@radix-ui/react-select";
 
 export const AgentIdFilter = () => {
     const [filters, setFilters] = useMeetingsFilters();
