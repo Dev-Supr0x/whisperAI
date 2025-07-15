@@ -11,7 +11,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { agents, meetings } from "@/db/schema";
 import { streamVideo } from "@/lib/stream-video";
-import { error } from "console";
 import { inngest } from "@/inngest/client";
 import OpenAI from "openai";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
